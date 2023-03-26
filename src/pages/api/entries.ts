@@ -2,12 +2,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  name: string
+  entries: any
 }
+
+const entries = [
+  {
+    id: '0000000000000001',
+    status: 'active',
+  },
+  {
+    id: '0000000000000002',
+    status: 'active',
+  },
+
+];
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  res.status(200).json(entries);
 }
