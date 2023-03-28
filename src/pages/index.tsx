@@ -9,23 +9,28 @@ export default function Home() {
 
   function handleChange(event: { target: { value: any; }; }) {
 
-    const accessCode = event.target.value;
-    const codeLength = accessCode.length;
+    const seed = event.target.value;
+    const codeLength = seed.length;
 
-    if(codeLength == 16) {
-      checkCode(accessCode);
+    if(codeLength == 12) {
+      checkSeed(seed);
     }
   }
 
-  async function checkCode(code: String) {
-    // console.log(code);
-    const res = await fetch('/api/entries', {
-        method: 'POST',
-    });
-    const data = await res.json();
-    console.log(data);
-  }
+  async function checkSeed(seed: Object) {
 
+    const body = {
+      seed,
+    }
+
+    const res = await fetch('/api/seed', {
+        method: 'POST',
+        body: JSON.stringify(body),
+    });
+
+    const seedObj = await res.json();
+    console.log(seedObj);
+  }
 
   return (
     <>
@@ -39,7 +44,7 @@ export default function Home() {
         welcome to the sagittarii club
       </div>
       <div>
-        <input size={25} placeholder="Enter your access code here" type="text" id="first" name="first" onChange={handleChange} />
+        <input size={25} placeholder="Enter your seed here" type="text" id="first" name="first" onChange={handleChange} />
       </div>
     </>
   )
