@@ -1,23 +1,28 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] });
+// import Image from 'next/image';
+// import styles from '@/styles/Home.module.css';
+// import { Inter } from 'next/font/google';
+// const inter = Inter({ subsets: ['latin'] });
+import Head from 'next/head';
+import Router from 'next/router';
+import React, { useState } from 'react';
 
 export default function Home() {
+  const [message, setMessage] = useState('');
 
   function handleChange(event: { target: { value: any; }; }) {
+    setMessage('needs to have 12 digits');
 
     const seed = event.target.value;
     const codeLength = seed.length;
 
     if(codeLength == 12) {
+      setMessage('please wait..');
       checkSeed(seed);
-    }
+    };
+
   }
 
-  async function checkSeed(seed: Object) {
+  async function checkSeed(seed: any) {
 
     const body = {
       seed,
@@ -29,7 +34,17 @@ export default function Home() {
     });
 
     const seedObj = await res.json();
-    console.log(seedObj);
+
+    if(seedObj.status == 'ok') {
+      setMessage('please wait..');
+      Router.push({
+        pathname: '[seed]',
+        query: { seed },
+      })
+    } else {
+      setMessage('seed does not exist');
+    }
+
   }
 
   return (
@@ -45,6 +60,9 @@ export default function Home() {
       </div>
       <div>
         <input size={25} placeholder="Enter your seed here" type="text" id="first" name="first" onChange={handleChange} />
+        <div>
+          { message }
+        </div>
       </div>
     </>
   )

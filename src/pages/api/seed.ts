@@ -9,4 +9,4 @@ export default async (
   const seedObj = await getSeedObj(seed);
 
   res.status(200).json(seedObj);
-}
+};
